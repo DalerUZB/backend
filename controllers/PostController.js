@@ -5,6 +5,7 @@ import UserModel from "../models/User.js";
 export const getAll = async (req, res) => {
   try {
     const posts = await PostModel.find().populate("user").exec();
+
     if (Boolean(posts)) {
       res.json(posts);
     } else {
@@ -53,7 +54,6 @@ export const getLastTags = async (req, res) => {
     console.log(error);
   }
 };
-// Create a new post
 export const create = async (req, res) => {
   // Extract and verify token
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
@@ -61,6 +61,7 @@ export const create = async (req, res) => {
     const decoded = jwt.verify(token, "sav571p");
     const { id, _id } = decoded;
     req.userID = id || _id;
+    console.log(decoded);
 
     // Create a new post document
     const doc = new PostModel({
@@ -70,7 +71,6 @@ export const create = async (req, res) => {
       tags: req.body.tags ? req.body.tags.split(",") : [],
       user: req.userID,
     });
-    console.log(req.userID);
 
     // Save the post to the database
     const post = await doc.save();

@@ -1,22 +1,20 @@
 import jwt from "jsonwebtoken";
 
 export default async (req, res, next) => {
-  const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
-  
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, "sav571p");
-      const { id, _id } = decoded;
-      req.userId = id || _id;
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res.status(401).send({ error: "Authentication required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "sav571p");
+    const { id, _id } = decoded;
+    req.userID = id || _id;
+    if (req.userID !== undefined || null) {
       next();
-    } catch (error) {
-      return res.status(403).json({
-        message: "нет доступа me",
-      });
     }
-  } else {
-    return res.status(403).json({
-      message: "нет доступа",
-    });
+  } catch (e) {
+    res.status(400).send({ error: "Invalid token" });
   }
 };
