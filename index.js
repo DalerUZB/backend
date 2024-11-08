@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import path from "path";
 import multer from "multer";
+// import { dlopen } from "process";
+// import { toNamespacedPath } from "path";
 
 import * as fs from "fs";
 
@@ -18,6 +20,9 @@ import checkAuth from "./utils/checkAuth.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+
+
 
 mongoose.set("strictQuery", false);
 const strMongo =
@@ -54,32 +59,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// app.post(
-//   "/upload",
-//   upload.fields([
-//     { name: "avatarUrl", maxCount: 1 }, // Accept one file for avatarUrl
-//     { name: "postFile", maxCount: 1 }, // Accept one file for postFile
-//   ]),
-//   (req, res) => {
-//     const avatar = req.files["avatarUrl"] ? req.files["avatarUrl"][0] : null;
-//     const postFile = req.files["postFile"] ? req.files["postFile"][0] : null;
+// // app.post(
+// //   "/upload",
+// //   upload.fields([
+// //     { name: "avatarUrl", maxCount: 1 }, // Accept one file for avatarUrl
+// //     { name: "postFile", maxCount: 1 }, // Accept one file for postFile
+// //   ]),
+// //   (req, res) => {
+// //     const avatar = req.files["avatarUrl"] ? req.files["avatarUrl"][0] : null;
+// //     const postFile = req.files["postFile"] ? req.files["postFile"][0] : null;
 
-//     if (avatar) {
-//       console.log("Avatar file saved at:", avatar.path);
-//     } else {
-//       console.log("No avatar file uploaded");
-//     }
+// //     if (avatar) {
+// //       console.log("Avatar file saved at:", avatar.path);
+// //     } else {
+// //       console.log("No avatar file uploaded");
+// //     }
 
-//     if (postFile) {
-//       console.log("Post file saved at:", postFile.path);
-//     } else {
-//       console.log("No post file uploaded");
-//     }
-//     res.json({
-//       url: `uploads/${req.file.originalname}`,
-//     });
-//   }
-// );
+// //     if (postFile) {
+// //       console.log("Post file saved at:", postFile.path);
+// //     } else {
+// //       console.log("No post file uploaded");
+// //     }
+// //     res.json({
+// //       url: `uploads/${req.file.originalname}`,
+// //     });
+// //   }
+// // );
+
 app.post(
   "/upload",
   upload.fields([
@@ -143,6 +149,7 @@ app.patch(
   handleValidationErrors,
   postControllers.update
 );
+
 
 app.listen(1010, () => {
   console.log("Server running on port 3000");

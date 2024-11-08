@@ -96,6 +96,7 @@ export const getMe = async (req, res) => {
   const user = await UserModel.findById(
     (decoded.id = decoded.id || decoded._id)
   );
+
   try {
     if (!user) {
       return res.status(404).json({
@@ -103,6 +104,8 @@ export const getMe = async (req, res) => {
       });
     }
     const { passwordHash, ...userData } = user._doc;
+   
+    
     res.json(userData);
   } catch (err) {
     console.log(err);
