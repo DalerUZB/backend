@@ -21,11 +21,21 @@ export const loginValidation = [
 ];
 
 export const PostCreateValidation = [
-  body("title", "Введите загаловок статъи").isLength({ min: 3 }).isString(),
-  body("text", "Введите текст статъи").isLength({ min: 3 }).isString(),
+  body("title", "Введите загаловок статъи")
+    .isLength({ min: 3 })
+    .isString()
+    .notEmpty(),
+  body("text", "Введите текст статъи")
+    .isLength({ min: 3 })
+    .isString()
+    .notEmpty(),
   body("tags", "Неверный ссылка на тегов, (укажите массив)")
     .optional()
-    .isString(),
-  body("imageUrl", "Неверный ссылка на изоброжение").optional().isString(),
+    .isString()
+    .notEmpty(),
+  body("imageUrl", "Неверный ссылка на изоброжение")
+    .optional()
+    .isString()
+    .notEmpty(),
   body("user", "user not found").optional().isString(),
 ];

@@ -71,7 +71,6 @@ export const create = async (req, res) => {
       tags: req.body.tags ? req.body.tags.split(",") : [],
       user: req.userID,
     });
-
     // Save the post to the database
     const post = await doc.save();
 
