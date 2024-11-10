@@ -45,15 +45,23 @@ export const getOne = async (req, res) => {
 export const getLastTags = async (req, res) => {
   try {
     const posts = await PostModel.find().limit(5).exec();
+    console.log(posts);
+    console.log(req.body);
     const tags = posts
       .map((obj) => obj.tags)
       .flat()
       .slice(0, 5);
-    res.json(tags);
+    const uniqueTags = [...new Set(tags)];
+    res.json(uniqueTags);
+    res.json({
+      message: "tags",
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
+
 export const create = async (req, res) => {
   // Extract and verify token
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
@@ -68,7 +76,9 @@ export const create = async (req, res) => {
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
-      tags: req.body.tags ? req.body.tags.split(",") : [],
+      tags: req.body.tags
+        ? req.body.tags.split(",").map((tag) => tag.trim()) // har bir tagni trim qilamiz
+        : [],
       user: req.userID,
     });
     // Save the post to the database

@@ -11,6 +11,7 @@ import {
   registerValidation,
   loginValidation,
   PostCreateValidation,
+  PostCommentValidation,
 } from "./validations.js";
 import handleValidationErrors from "./utils/handleValidationErros.js";
 import checkAuth from "./utils/checkAuth.js";
@@ -113,7 +114,10 @@ app.get("/auth/me", checkAuth, userControllers.getMe);
 
 app.get("/posts", postControllers.getAll);
 app.get("/posts/:id", postControllers.getOne);
+
+
 app.get("/posts/tags", postControllers.getLastTags);
+
 app.post(
   "/posts",
   checkAuth,
@@ -122,6 +126,7 @@ app.post(
   postControllers.create
 );
 app.delete("/posts/:id", checkAuth, postControllers.remove);
+
 app.patch(
   "/posts/:id",
   checkAuth,
@@ -129,7 +134,14 @@ app.patch(
   handleValidationErrors,
   postControllers.update
 );
+app.patch(
+  "/posts/:id/comment",
+  checkAuth,
+  PostCommentValidation,
+  handleValidationErrors,
+  postControllers.comment
+);
 
 app.listen(1010, () => {
-  console.log("Server running on port 3000");
+  console.log("Server running on port 1010");
 });

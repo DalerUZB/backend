@@ -39,3 +39,9 @@ export const PostCreateValidation = [
     .notEmpty(),
   body("user", "user not found").optional().isString(),
 ];
+
+export const PostCommentValidation = [
+  body("avatarUrl").optional().isString().notEmpty(),
+  body("fullName").isString().isLength({ min: 3 }).notEmpty(),
+  body("text").isLength({ min: 1 }).isString().notEmpty(),
+];
