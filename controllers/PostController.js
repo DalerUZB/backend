@@ -42,26 +42,34 @@ export const getOne = async (req, res) => {
     }
   ).populate("user");
 };
-export const getLastTags = async (req, res) => {
+export const tags = async (req, res) => {
   try {
     const posts = await PostModel.find().limit(5).exec();
+    const arrtags = [];
+
     console.log(posts);
-    console.log(req.body);
-    const tags = posts
-      .map((obj) => obj.tags)
-      .flat()
-      .slice(0, 5);
-    const uniqueTags = [...new Set(tags)];
-    res.json(uniqueTags);
-    res.json({
-      message: "tags",
+
+    // Har bir postdagi tags qiymatini massiv shaklida arrtags ga push qilish
+    posts.forEach((el) => {
+      el.tags.forEach((tag) => {
+        arrtags.push({ tags: tag }); // Har bir tag uchun alohida obyekt qo'shamiz
+      });
     });
+
+    res.json(arrtags); // { tags: "tag_nomi" } shaklida qaytarish
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log(error);
+    res.status(500).json({ error: "Server error" });
   }
 };
-
+export const getLastComment = async (req, res) => {
+  const findAllcomments = await PostModel.find().limit(5).exec();
+  const commentsArr = [];
+  findAllcomments.forEach((cm) => {
+    commentsArr.push(cm.comments);
+  });
+  res.json(commentsArr);
+};
 export const create = async (req, res) => {
   // Extract and verify token
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");

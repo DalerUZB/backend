@@ -115,8 +115,8 @@ app.get("/auth/me", checkAuth, userControllers.getMe);
 app.get("/posts", postControllers.getAll);
 app.get("/posts/:id", postControllers.getOne);
 
-
-app.get("/posts/tags", postControllers.getLastTags);
+app.get("/tags", postControllers.tags);
+app.get('/comment', postControllers.getLastComment)
 
 app.post(
   "/posts",
