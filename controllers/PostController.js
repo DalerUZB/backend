@@ -47,29 +47,61 @@ export const tags = async (req, res) => {
     const posts = await PostModel.find().limit(5).exec();
     const arrtags = [];
 
-    console.log(posts);
-
-    // Har bir postdagi tags qiymatini massiv shaklida arrtags ga push qilish
     posts.forEach((el) => {
       el.tags.forEach((tag) => {
-        arrtags.push({ tags: tag }); // Har bir tag uchun alohida obyekt qo'shamiz
+        arrtags.push({ tags: tag });
       });
     });
 
-    res.json(arrtags); // { tags: "tag_nomi" } shaklida qaytarish
+    res.json(arrtags);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 };
+// export const getLastComment = async (req, res) => {
+//   const findAllcomments = await PostModel.find().limit(5).exec();
+//   const commentsArr = [];
+//   findAllcomments.forEach((cm) => {
+//     if (cm.comments && cm.comments.length > 0) {
+//       commentsArr.push(cm.comments[cm.comments.length - 1]);
+//     }
+//   });
+//   res.json(commentsArr);
+// };
 export const getLastComment = async (req, res) => {
-  const findAllcomments = await PostModel.find().limit(5).exec();
-  const commentsArr = [];
-  findAllcomments.forEach((cm) => {
-    commentsArr.push(cm.comments);
-  });
-  res.json(commentsArr);
+  const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
+
+  const decoded = jwt.verify(token, "sav571p");
+  const { id, _id } = decoded;
+
+  try {
+    const findAllcomments = await PostModel.find()
+      .limit(5)
+      .populate("comments")
+      .exec();
+    const commentsArr = [];
+    req.userID = id || _id;
+
+    findAllcomments.forEach((cm) => {
+      const uniqueUsers = new Map();
+
+      cm.comments.forEach((comment) => {
+        if (!uniqueUsers.has(comment.userID)) {
+          uniqueUsers.set(comment.userID, true);
+          commentsArr.push(comment);
+        }
+      });
+    }); 
+    res.json(commentsArr);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Ошибка при получении комментариев",
+    });
+  }
 };
+
 export const create = async (req, res) => {
   // Extract and verify token
   const token = (req.headers.authorization || "").replace(/Bearer\s?/, "");
