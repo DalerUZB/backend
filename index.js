@@ -116,7 +116,6 @@ app.get("/posts", postControllers.getAll);
 app.get("/posts/:id", postControllers.getOne);
 
 app.get("/tags", postControllers.tags);
-app.get("/comment", postControllers.getLastComment);
 
 app.post(
   "/posts",
