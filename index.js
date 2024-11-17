@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import multer from "multer";
 import path from "path";
-
+import dotenv from "dotenv";
 import * as fs from "fs";
 
 import { userControllers, postControllers } from "./controllers/index.js";
@@ -17,17 +17,16 @@ import handleValidationErrors from "./utils/handleValidationErros.js";
 import checkAuth from "./utils/checkAuth.js";
 
 const app = express();
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 
 app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
-const strMongo =
-  "mongodb+srv://dalir2001mailcom:wwwwww@cluster0.yp4nhs9.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose
-  .connect(strMongo, {
+  .connect(process.env.STRMONGO, {
     connectTimeoutMS: 40000,
     serverSelectionTimeoutMS: 40000,
   })
@@ -141,6 +140,8 @@ app.patch(
   postControllers.comment
 );
 
-app.listen(1010, () => {
-  console.log("Server running on port 1010");
+const port = process.env.PORT || 1010;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
