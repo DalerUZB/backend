@@ -33,8 +33,9 @@ mongoose.set("strictQuery", false);
 //   .then(() => console.log("mongoose connected"))
 //   .catch((err) => console.error("connect error:", err));
 
+const mongo = process.env.STRMONGO;
 mongoose
-  .connect("" + process.env.STRMONGO, {
+  .connect(mongo, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     connectTimeoutMS: 40000,
