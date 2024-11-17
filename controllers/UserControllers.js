@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import UserModel from "../models/User.js";
 
@@ -104,8 +104,7 @@ export const getMe = async (req, res) => {
       });
     }
     const { passwordHash, ...userData } = user._doc;
-   
-    
+
     res.json(userData);
   } catch (err) {
     console.log(err);
