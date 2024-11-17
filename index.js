@@ -15,9 +15,9 @@ import {
 } from "./validations.js";
 import handleValidationErrors from "./utils/handleValidationErros.js";
 import checkAuth from "./utils/checkAuth.js";
+dotenv.config();
 
 const app = express();
-dotenv.config();
 app.use(express.json());
 app.use(cors());
 
@@ -30,7 +30,7 @@ mongoose
     connectTimeoutMS: 40000,
     serverSelectionTimeoutMS: 40000,
   })
-  .then(() => console.log("mongoose connect"))
+  .then(() => console.log("mongoose connected"))
   .catch((err) => console.error("connect error:", err));
 
 const createFolders = () => {
@@ -141,7 +141,6 @@ app.patch(
 );
 
 const port = process.env.PORT || 1010;
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
