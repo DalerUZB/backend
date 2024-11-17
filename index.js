@@ -34,7 +34,7 @@ mongoose.set("strictQuery", false);
 //   .catch((err) => console.error("connect error:", err));
 
 mongoose
-  .connect(process.env.STRMONGO, {
+  .connect("" + process.env.STRMONGO, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     connectTimeoutMS: 40000,
@@ -157,7 +157,7 @@ app.patch(
   handleValidationErrors,
   postControllers.comment
 );
-
+console.log(typeof process.env.STRMONGO);
 const port = process.env.PORT || 1010;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
