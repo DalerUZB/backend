@@ -25,13 +25,31 @@ app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
 
+// mongoose
+//   .connect(process.env.STRMONGO, {
+//     connectTimeoutMS: 40000,
+//     serverSelectionTimeoutMS: 40000,
+//   })
+//   .then(() => console.log("mongoose connected"))
+//   .catch((err) => console.error("connect error:", err));
+
 mongoose
   .connect(process.env.STRMONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
     connectTimeoutMS: 40000,
     serverSelectionTimeoutMS: 40000,
   })
   .then(() => console.log("mongoose connected"))
   .catch((err) => console.error("connect error:", err));
+
+mongoose.connection.on("error", (err) => {
+  console.log("err", err);
+});
+
+mongoose.connection.on("connected", (err, res) => {
+  console.log("mongoose is connected");
+});
 
 const createFolders = () => {
   const folders = ["uploads", "uploads/avatarUrl", "uploads/postFile"];
