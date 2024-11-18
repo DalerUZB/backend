@@ -24,11 +24,8 @@ app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
-const mongo = process.env.STRMONGO;
-
-
-
-
+const mongo = process.env.STRMONGO.toString();
+mongoose.Promise = global.Promise;
 
 mongoose
   .connect(mongo, {
