@@ -24,7 +24,7 @@ app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
-const mongo = process.env.STRMONGO.toString();
+const mongo = process.env.STRMONGO;
 mongoose.Promise = global.Promise;
 
 mongoose
@@ -34,20 +34,6 @@ mongoose
   })
   .then(() => console.log("mongoose connected"))
   .catch((err) => console.error("connect error:", err));
-
-// mongoose
-//   .connect(mongo, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     connectTimeoutMS: 40000,
-//     serverSelectionTimeoutMS: 40000,
-//   })
-//   .then(() => console.log("mongoose connected"))
-//   .catch((err) => console.error("connect error:", err));
-
-// mongoose.connection.on("error", (err) => {
-//   console.log("err", err);
-// });
 
 const createFolders = () => {
   const folders = ["uploads", "uploads/avatarUrl", "uploads/postFile"];
