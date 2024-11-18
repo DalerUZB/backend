@@ -29,8 +29,8 @@ mongoose.Promise = global.Promise;
 
 mongoose
   .connect(mongo, {
-    connectTimeoutMS: 40000,
-    serverSelectionTimeoutMS: 40000,
+    useNewUrlParser: "true",
+    useUnifiedTopology: "true",
   })
   .then(() => console.log("mongoose connected"))
   .catch((err) => console.error("connect error:", err));
