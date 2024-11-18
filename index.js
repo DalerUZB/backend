@@ -25,8 +25,10 @@ app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
 
+const str =
+  "mongodb+srv://dalir2001mailcom:wwwwww@cluster0.yp4nhs9.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0";
 mongoose
-  .connect(process.env.STRMONGO, {
+  .connect(str, {
     useNewUrlParser: "true",
     useUnifiedTopology: "true",
   })
