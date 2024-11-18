@@ -25,12 +25,11 @@ app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
 
-const str =
-  "mongodb+srv://dalir2001mailcom:wwwwww@cluster0.yp4nhs9.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0";
+const str = process.env.STRMONGO;
 mongoose
   .connect(str, {
-    useNewUrlParser: "true",
-    useUnifiedTopology: "true",
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
   .then(() => console.log("mongoose connected"))
   .catch((err) => console.error("connect error:", err));
