@@ -25,9 +25,8 @@ app.use("/uploads", express.static("uploads"));
 
 mongoose.set("strictQuery", false);
 
-const str = process.env.STRMONGO;
 mongoose
-  .connect(str, {
+  .connect(process.env.STRMONGO.toString(), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
